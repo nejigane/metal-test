@@ -2,17 +2,17 @@ import Foundation
 import Metal
 
 struct Dimension {
-    var row: UInt32 = 0
     var col: UInt32 = 0
+    var row: UInt32 = 0
 }
 
 let device = MTLCreateSystemDefaultDevice()!
 let library = device.newDefaultLibrary()!
-let function = library.newFunctionWithName("matmul")!
+let function = library.newFunctionWithName("matmul2")!
 let state = try! device.newComputePipelineStateWithFunction(function)
 
-var ldim = Dimension(row:1024, col:512)
-var rdim = Dimension(row:512, col:1024)
+var ldim = Dimension(col:4, row:2)
+var rdim = Dimension(col:2, row:4)
 
 let queue = device.newCommandQueue()
 let buffer = queue.commandBuffer()
@@ -60,3 +60,5 @@ print(elapsed)
 
 let data = NSData(bytesNoCopy: obuffer.contents(), length: omat.count*sizeof(Float), freeWhenDone: false)
 data.getBytes(&omat, length:omat.count*sizeof(Float))
+print(omat)
+
