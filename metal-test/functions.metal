@@ -42,6 +42,8 @@ kernel void matmul2(const device float *left  [[ buffer(0) ]],
                     constant uint2 &rdims     [[ buffer(3) ]],
                     device float *out         [[ buffer(4) ]],
                     uint2 pos                 [[ thread_position_in_grid ]]) {
+    if (pos.x >= rdims.x || pos.y >= ldims.y) return;
+    
     float v = 0;
     for(uint i = 0; i < ldims.x; ++i){
         v += left[pos.y * ldims.x + i] * right[i * rdims.x + pos.x];
